@@ -8,15 +8,11 @@ describe('Spotify Controller', function(){
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     beforeEach(function(done){
-        spotify.playTrackInContext('spotify:track:0R8P9KfGJCDULmlEoBagcO', 'spotify:album:6ZG5lRT77aJ3btmArcykra', function(){
-            done();
-        });
+        spotify.playTrackInContext('spotify:track:0R8P9KfGJCDULmlEoBagcO', 'spotify:album:6ZG5lRT77aJ3btmArcykra').then(done);
     });
 
     after(function(done){
-        spotify.pause(function(){
-            done();
-        });
+        spotify.pause().then(done);
         spotify.setRepeating(false);
         spotify.setShuffling(false);
     });
@@ -25,9 +21,9 @@ describe('Spotify Controller', function(){
 
     it('play track', function(done){
         spotify.playTrack('spotify:track:6JEK0CvvjDjjMUBFoXShNZ', function(){
-            spotify.getTrack(function(error, track){
-                expect(track.name).to.equal('Never Gonna Give You Up');
-                done();
+            spotify.getTrack().then((track) => {
+              expect(track.name).to.equal('Never Gonna Give You Up');
+              done();
             });
         });
     });
@@ -36,40 +32,40 @@ describe('Spotify Controller', function(){
 
     it('should pause a track', function(done){
         spotify.pause(function(){
-            spotify.getState(function(error, state){
-                expect(state.state).to.equal('paused');
-                done();
+            spotify.getState().then((state) => {
+              expect(state.state).to.equal('paused');
+              done();
             });
         });
     });
 
     it('should resume playing a track after pausing', function(done){
-        spotify.pause(function(){
-            spotify.play(function(){
-                spotify.getState(function(error, state){
-                    expect(state.state).to.equal('playing');
-                    done();
-                });
+        spotify.pause().then(() => {
+          spotify.play().then(() => {
+            spotify.getState().then((state) => {
+              expect(state.state).to.equal('playing');
+              done();
             });
+          });
         });
     });
 
     it('should play and pause a track', function(done){
-        spotify.playPause(function(){
-            spotify.getState(function(error, state){
-                expect(state.state).to.equal('paused');
-                spotify.playPause(function(){
-                    spotify.getState(function(error, state){
-                        expect(state.state).to.equal('playing');
-                        done();
-                    });
+        spotify.playPause().then(() =>{
+          spotify.getState().then((state) => {
+            expect(state.state).to.equal('paused');
+            spotify.playPause().then(() => {
+                spotify.getState().then((state) => {
+                    expect(state.state).to.equal('playing');
+                    done();
                 });
             });
+          });
         });
     });
 
     it('should return playing track', function(done){
-        spotify.getTrack(function(error, track){
+        spotify.getTrack().then((track) =>{
             expect(track.artist).to.equal('Coldplay');
             expect(track.name).to.equal('Trouble');
             done();
@@ -79,9 +75,9 @@ describe('Spotify Controller', function(){
     it('should jump to a specific position of the song', function(done){
         // spotify needs some time to catch up with the jump or it will
         // simply return 0 as current player position
-        setTimeout(function(){
-            spotify.jumpTo(15, function(){
-                spotify.getState(function(err, state){
+        setTimeout(() => {
+            spotify.jumpTo(15).then(() => {
+                spotify.getState().then((state) => {
                     expect(state.position).to.equal(15);
                     done();
                 });
@@ -90,17 +86,17 @@ describe('Spotify Controller', function(){
     });
 
  	it('play next track', function(done){
-		spotify.next(function(error, track){
-			spotify.getTrack(function(error, track){
-                expect(track.name).to.equal('Parachutes');
-				done();
+		spotify.next().then((track) => {
+			spotify.getTrack().then((track) => {
+        expect(track.name).to.equal('Parachutes');
+        done();
 			});
 		});
 	});
 
 	it('play previous track', function(done){
-		spotify.previous(function(error, track){
-			spotify.getTrack(function(error, track){
+		spotify.previous().then((track) => {
+			spotify.getTrack().then((track) => {
 				expect(track.name).to.equal('Yellow');
 				done();
 			});
@@ -111,11 +107,11 @@ describe('Spotify Controller', function(){
 
     it('should turn volume up', function(done){
         // first do volumeDown in case volume is already 100
-        spotify.volumeDown(function(){
-            spotify.getState(function(error, state){
+        spotify.volumeDown().then(() => {
+            spotify.getState().then((state) => {
                 var volume = state.volume;
-                spotify.volumeUp(function(){
-                    spotify.getState(function(error, state){
+                spotify.volumeUp().then(() => {
+                    spotify.getState().then((state) => {
                         expect(state.volume).to.be.greaterThan(volume);
                         done();
                     });
@@ -126,11 +122,11 @@ describe('Spotify Controller', function(){
 
     it('should turn volume down', function(done){
         // first do volumeUp in case volume is already 0
-        spotify.volumeUp(function(){
-            spotify.getState(function(error, state){
+        spotify.volumeUp(() => {
+            spotify.getState().then((state) => {
                 var volume = state.volume;
-                spotify.volumeDown(function(){
-                    spotify.getState(function(error, state){
+                spotify.volumeDown().then(() => {
+                    spotify.getState().then((state) => {
                         expect(state.volume).to.be.lessThan(volume);
                         done();
                     });
@@ -140,10 +136,8 @@ describe('Spotify Controller', function(){
     });
 
     it('should set the volume', function(done){
-        spotify.setVolume(0, function(){
-            spotify.getState(function(err, state){
-                if (err) throw err;
-
+        spotify.setVolume(0).then(() => {
+            spotify.getState().then((state) => {
                 expect(state.volume).to.equal(0);
                 done();
             });
@@ -151,18 +145,14 @@ describe('Spotify Controller', function(){
     });
 
     it('should mute and unmute the volume', function(done){
-        spotify.setVolume(50, function(){
-            spotify.muteVolume(function(err, state){
-                spotify.getState(function(err, state){
-                    if (err) throw err;
-
+        spotify.setVolume(50).then(() => {
+            spotify.muteVolume().then((state) => {
+                spotify.getState().then((state) => {
                     // volume now should be 0
                     expect(state.volume).to.equal(0);
 
-                    spotify.unmuteVolume(function(err, state){
-                        spotify.getState(function(err, state){
-                            if (err) throw err;
-
+                    spotify.unmuteVolume().then((state) => {
+                        spotify.getState().then((state) => {
                             // volume now should be 50 again
                             // but spotify won't set volume exactly, so test if volume is within a range
                             expect(state.volume).to.be.within(45, 55);
@@ -177,7 +167,7 @@ describe('Spotify Controller', function(){
     // State retrieval
 
     it('should return current track', function(done){
-        spotify.getTrack(function(error, track){
+        spotify.getTrack().then((track) => {
             expect(track.name).to.equal('Trouble');
             expect(track.artist).to.equal('Coldplay');
             expect(track.album).to.equal('Parachutes');
@@ -196,7 +186,7 @@ describe('Spotify Controller', function(){
     });
 
     it('should return player status', function(done){
-        spotify.getState(function(error, state){
+        spotify.getState().then((state) => {
             expect(state.state).to.equal('playing');
             expect(state.volume).to.be.a('number');
             expect(state.position).to.be.a('number');
@@ -207,7 +197,7 @@ describe('Spotify Controller', function(){
     });
 
     it('should return true when spotify is running', function(done) {
-        spotify.isRunning(function(error, isRunning) {
+        spotify.isRunning().then((isRunning) => {
             expect(error).to.be.null;
             expect(isRunning).to.be.true;
             done();
@@ -215,10 +205,8 @@ describe('Spotify Controller', function(){
     });
 
     it('should set the repeating to false', function(done){
-        spotify.setRepeating(false, function(){
-            spotify.isRepeating(function(err, repeating){
-                if (err) throw err;
-
+        spotify.setRepeating(false).then(() => {
+            spotify.isRepeating().then((repeating) => {
                 expect(repeating).to.equal(false);
                 done();
             });
@@ -226,10 +214,8 @@ describe('Spotify Controller', function(){
     });
 
     it('should set the repeating to true', function(done){
-        spotify.setRepeating(true, function(){
-            spotify.isRepeating(function(err, repeating){
-                if (err) throw err;
-
+        spotify.setRepeating(true).then(() => {
+            spotify.isRepeating().then((repeating) => {
                 expect(repeating).to.equal(true);
                 done();
             });
@@ -237,10 +223,8 @@ describe('Spotify Controller', function(){
     });
 
     it('should set the shuffling to false', function(done){
-        spotify.setShuffling(false, function(){
-            spotify.isShuffling(function(err, shuffling){
-                if (err) throw err;
-
+        spotify.setShuffling(false).then(() => {
+            spotify.isShuffling().then((shuffling) => {
                 expect(shuffling).to.equal(false);
                 done();
             });
@@ -248,10 +232,8 @@ describe('Spotify Controller', function(){
     });
 
     it('should set the shuffling to true', function(done){
-        spotify.setShuffling(true, function(){
-            spotify.isShuffling(function(err, shuffling){
-                if (err) throw err;
-
+        spotify.setShuffling(true).then(() => {
+            spotify.isShuffling().then((shuffling) => {
                 expect(shuffling).to.equal(true);
                 done();
             });
@@ -259,11 +241,9 @@ describe('Spotify Controller', function(){
     });
 
     it('should toggle the repeating', function(done){
-        spotify.setRepeating(false, function(){
-            spotify.toggleRepeating(function(err){
-                spotify.isRepeating(function(err, repeating){
-                    if (err) throw err;
-
+        spotify.setRepeating(false).then(() => {
+            spotify.toggleRepeating().then(() => {
+                spotify.isRepeating().then((repeating) => {
                     expect(repeating).to.equal(true);
                     done();
                 });
@@ -272,11 +252,9 @@ describe('Spotify Controller', function(){
     });
 
     it('should toggle the shuffling', function(done){
-        spotify.setShuffling(false, function(){
-            spotify.toggleShuffling(function(err){
-                spotify.isShuffling(function(err, shuffling){
-                    if (err) throw err;
-
+        spotify.setShuffling(false).then(() => {
+            spotify.toggleShuffling().then(() => {
+                spotify.isShuffling().then((shuffling) => {
                     expect(shuffling).to.equal(true);
                     done();
                 });
