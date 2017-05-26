@@ -19,7 +19,8 @@
   },
   "main": "./lib/spotify-node-applescript.js",
   "dependencies": {
-    "applescript": "1.0.0"
+    "applescript": "1.0.0",
+    "osascript-promise": "^1.0.0"
   },
   "devDependencies": {
     "chai": "2.3.x",
