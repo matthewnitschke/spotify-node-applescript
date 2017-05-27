@@ -34,7 +34,7 @@ Play a track in context of for example an album.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.playTrackInContext('spotify:track:0R8P9KfGJCDULmlEoBagcO', 'spotify:album:6ZG5lRT77aJ3btmArcykra', function(){
+spotify.playTrackInContext('spotify:track:0R8P9KfGJCDULmlEoBagcO', 'spotify:album:6ZG5lRT77aJ3btmArcykra').then(() => {
     // Track is playing in context of an album
 });
 ```
@@ -46,7 +46,7 @@ Get the current track. `callback` is called with the current track as second arg
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.getTrack(function(err, track){
+spotify.getTrack().then((track) => {
 
     /*
     track = {
@@ -76,7 +76,7 @@ Get player state.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.getState(function(err, state){
+spotify.getState().then((state) => {
     /*
     state = {
         volume: 99,
@@ -94,7 +94,7 @@ Jump to a specific second of the current song.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.jumpTo(15, function() {
+spotify.jumpTo(15).then(() => {
     console.log('Jumped 15th second of the song');
 });
 ```
@@ -134,7 +134,7 @@ Sets the volume.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.setVolume(42, function() {
+spotify.setVolume(42).then(() => {
     spotify.getState(function(err, state) {
         console.log(state.volume);
     });
@@ -156,7 +156,7 @@ Check if Spotify is running.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.isRunning(function(err, isRunning){
+spotify.isRunning().then((isRunning) => {
     console.log(isRunning); // true
 });
 ```
@@ -166,7 +166,7 @@ Is repeating on or off?
 ```js
 var spotify = require('spotify-node-applescript');
 
-spotify.isRepeating(function(err, shuffling){
+spotify.isRepeating().then((shuffling) => {
     console.log(shuffling); // true || false
 });
 ```
@@ -176,7 +176,7 @@ Is shuffling on or off?
 ```js
 var spotify = require('spotify-node-applescript');
 
-spotify.isShuffling(function(err, shuffling){
+spotify.isShuffling((shuffling) => {
     console.log(shuffling); // true || false
 });
 ```
