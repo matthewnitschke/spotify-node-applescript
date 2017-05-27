@@ -20,7 +20,7 @@ describe('Spotify Controller', function(){
     // Open and get track
 
     it('play track', function(done){
-        spotify.playTrack('spotify:track:6JEK0CvvjDjjMUBFoXShNZ', function(){
+        spotify.playTrack('spotify:track:6JEK0CvvjDjjMUBFoXShNZ').then(() => {
             spotify.getTrack().then((track) => {
               expect(track.name).to.equal('Never Gonna Give You Up');
               done();
@@ -31,7 +31,7 @@ describe('Spotify Controller', function(){
     // Playback control
 
     it('should pause a track', function(done){
-        spotify.pause(function(){
+        spotify.pause().then(() => {
             spotify.getState().then((state) => {
               expect(state.state).to.equal('paused');
               done();
@@ -122,7 +122,7 @@ describe('Spotify Controller', function(){
 
     it('should turn volume down', function(done){
         // first do volumeUp in case volume is already 0
-        spotify.volumeUp(() => {
+        spotify.volumeUp().then(() => {
             spotify.getState().then((state) => {
                 var volume = state.volume;
                 spotify.volumeDown().then(() => {
@@ -198,7 +198,6 @@ describe('Spotify Controller', function(){
 
     it('should return true when spotify is running', function(done) {
         spotify.isRunning().then((isRunning) => {
-            expect(error).to.be.null;
             expect(isRunning).to.be.true;
             done();
         });
