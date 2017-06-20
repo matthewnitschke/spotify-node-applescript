@@ -22,7 +22,7 @@ Play a track with Spotify URI `uri`.
 ```javascript
 var spotify = require('spotify-node-applescript');
 
-spotify.playTrack('spotify:track:3AhXZa8sUQht0UEdBJgpGc', function(){
+spotify.playTrack('spotify:track:3AhXZa8sUQht0UEdBJgpGc').then(() => {
     // track is playing
 });
 ```
