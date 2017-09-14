@@ -15,7 +15,7 @@ $ npm test
 
 ## API
 
-### playTrack(uri, callback)
+### playTrack(uri)
 
 Play a track with Spotify URI `uri`.
 
@@ -27,7 +27,7 @@ spotify.playTrack('spotify:track:3AhXZa8sUQht0UEdBJgpGc').then(() => {
 });
 ```
 
-### playTrackInContext(uri, contextUri, callback)
+### playTrackInContext(uri, contextUri)
 
 Play a track in context of for example an album.
 
@@ -39,7 +39,7 @@ spotify.playTrackInContext('spotify:track:0R8P9KfGJCDULmlEoBagcO', 'spotify:albu
 });
 ```
 
-### getTrack(callback)
+### getTrack()
 
 Get the current track. `callback` is called with the current track as second argument.
 
@@ -69,7 +69,7 @@ spotify.getTrack().then((track) => {
 });
 ```
 
-### getState(callback)
+### getState()
 
 Get player state.
 
@@ -87,7 +87,7 @@ spotify.getState().then((state) => {
 });
 ```
 
-### jumpTo(second, callback)
+### jumpTo(second)
 
 Jump to a specific second of the current song.
 
@@ -99,35 +99,35 @@ spotify.jumpTo(15).then(() => {
 });
 ```
 
-### play(callback)
+### play()
 
 Resume playing current track.
 
-### pause(callback)
+### pause()
 
 Pause playing track.
 
-### playPause(callback)
+### playPause()
 
 Toggle play.
 
-### next(callback)
+### next()
 
 Play next track.
 
-### previous(callback)
+### previous()
 
 Play previous track.
 
-### volumeUp(callback)
+### volumeUp()
 
 Turn volume up.
 
-### volumeDown(callback)
+### volumeDown()
 
 Turn volume down.
 
-### setVolume(volume, callback)
+### setVolume(volume)
 
 Sets the volume.
 
@@ -141,15 +141,15 @@ spotify.setVolume(42).then(() => {
 });
 ```
 
-### muteVolume(callback)
+### muteVolume()
 
 Reduces audio to 0, saving the previous volume.
 
-### unmuteVolume(callback)
+### unmuteVolume()
 
 Returns audio to original volume.
 
-### isRunning(callback)
+### isRunning()
 
 Check if Spotify is running.
 
@@ -161,7 +161,7 @@ spotify.isRunning().then((isRunning) => {
 });
 ```
 
-### isRepeating(callback)
+### isRepeating()
 Is repeating on or off?
 ```js
 var spotify = require('spotify-node-applescript');
@@ -171,7 +171,7 @@ spotify.isRepeating().then((shuffling) => {
 });
 ```
 
-### isShuffling(callback)
+### isShuffling()
 Is shuffling on or off?
 ```js
 var spotify = require('spotify-node-applescript');
@@ -180,16 +180,16 @@ spotify.isShuffling((shuffling) => {
     console.log(shuffling); // true || false
 });
 ```
-### setRepeating(repeating/\**boolean*\*/, callback)
+### setRepeating(repeating/\**boolean*\*/)
 Sets repeating on or off
 
-### setShuffling(shuffling/\**boolean*\*/, callback)
+### setShuffling(shuffling/\**boolean*\*/)
 Sets shuffling on or off
 
-### toggleRepeating(callback)
+### toggleRepeating()
 Toggles repeating
 
-### toggleShuffling(callback)
+### toggleShuffling()
 Toggles shuffling
 
 ## Contributors
@@ -197,6 +197,7 @@ Toggles shuffling
 * [Robin Mehner](https://github.com/rmehner)
 * [Thorsten Ball](https://github.com/mrnugget)
 * [Paul Marbach](https://github.com/fastfrwrd)
+* [Matthew Nitschke](https://github.com/matthewnitschke)
 
 ## License
 
