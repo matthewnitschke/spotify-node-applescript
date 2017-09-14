@@ -1,10 +1,10 @@
-# spotify-node-applescript
-Control Spotify on Mac OSX with NodeJS and AppleScript.
+# spotify-node-applescript-promise
+Control Spotify on Mac OSX with NodeJS and AppleScript. A promise port of (spotify-node-applescript)[https://github.com/andrehaveman/spotify-node-applescript]
 
 ## Installation
 
 ```
-$ npm install spotify-node-applescript
+$ npm install spotify-node-applescript-promise
 ```
 
 ## Running unit tests
